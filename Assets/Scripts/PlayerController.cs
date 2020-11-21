@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
 
-        healthBar.value = playerHealth;
+        //healthBar.value = playerHealth;
 
     }
 }

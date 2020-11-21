@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    int enemyHealth = 5;
+   [SerializeField] int enemyHealth = 5;
+
+    void OnTriggerEnter(Collider other)
+    {
+
+        if (other.tag == "Physical")
+        {
+            Debug.Log(enemyHealth + " health remaining");
+            Debug.Log("Squish!");
+        }
+
+    }
     // Start is called before the first frame update
     void Start()
     {
