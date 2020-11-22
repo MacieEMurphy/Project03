@@ -14,6 +14,7 @@ public class Charge : MonoBehaviour
     public float chargeSpeed;
     private float m_chargeTurn = 3.0f; 
     public KeyCode chargeKey = KeyCode.LeftShift;
+    Vector3 mainCam;
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +33,7 @@ public class Charge : MonoBehaviour
         if (Input.GetKeyDown(chargeKey))
         {
             m_Charge = !m_Charge;
+            
 
             CheckCharge();
         }
@@ -40,7 +42,8 @@ public class Charge : MonoBehaviour
         {
             if (Input.GetKeyDown(chargeKey))
             {
-                direction = 1; 
+                direction = 1;
+                Camera.main.transform.position = new Vector3(0, 3, -10f);
             }
 
         }
@@ -51,14 +54,26 @@ public class Charge : MonoBehaviour
                 direction = 0;
                 chargeTime = startChargeTime;
                 rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                Camera.main.transform.position = new Vector3(0, 1, 0);
             }
             else
             {
                 chargeTime -= Time.deltaTime;
+                
             }
             if(direction == 1)
             {
-                rb.AddForce(transform.forward * chargeSpeed, 0, horizontalInput * m_chargeTurn, ForceMode.Force);
+                
+                rb.AddForce(transform.forward * chargeSpeed);
+                if (Input.GetKey(KeyCode.A))
+                {
+                    rb.AddRelativeForce(Vector3.left * m_chargeTurn);
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    rb.AddRelativeForce(Vector3.right * m_chargeTurn);
+                }
             }
         }
     }
