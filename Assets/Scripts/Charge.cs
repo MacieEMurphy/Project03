@@ -15,6 +15,18 @@ public class Charge : MonoBehaviour
     private float m_chargeTurn = 3.0f; 
     public KeyCode chargeKey = KeyCode.LeftShift;
     Vector3 mainCam;
+    AudioSource audioSource = null;
+
+    [SerializeField] Transform thirdPersonPosition;
+    [SerializeField] Transform firstPersonPosition;
+    [SerializeField] AudioClip chargeSFX = null;
+
+    public PlayerController playerController;
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +45,6 @@ public class Charge : MonoBehaviour
         if (Input.GetKeyDown(chargeKey))
         {
             m_Charge = !m_Charge;
-            
 
             CheckCharge();
         }
@@ -43,7 +54,14 @@ public class Charge : MonoBehaviour
             if (Input.GetKeyDown(chargeKey))
             {
                 direction = 1;
-                Camera.main.transform.position = new Vector3(0, 3, -10f);
+                Camera.main.transform.position = thirdPersonPosition.position;
+                playerController.SetBoosters(true);
+                if (audioSource != null && chargeSFX != null)
+                {
+                    audioSource.clip = chargeSFX;
+                    audioSource.Play();
+                }
+
             }
 
         }
@@ -55,7 +73,8 @@ public class Charge : MonoBehaviour
                 chargeTime = startChargeTime;
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
-                Camera.main.transform.position = new Vector3(0, 1, 0);
+                Camera.main.transform.position = firstPersonPosition.position;
+                playerController?.SetBoosters(false);
             }
             else
             {
@@ -82,4 +101,5 @@ public class Charge : MonoBehaviour
     {
 
     }
+
 }

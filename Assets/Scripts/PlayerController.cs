@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _turnSpeed = 6.0f;
     [SerializeField] float _jumpStrength = 10.0f;
 
+    [SerializeField] TrailRenderer _trail = null;
+
 
     private void Start()
     {
@@ -32,6 +34,8 @@ public class PlayerController : MonoBehaviour
     {
         _input = GetComponent<FPSInput>();
         _motor = GetComponent<FPSMotor>();
+        audioSource = GetComponent<AudioSource>();
+        _trail.enabled = false;
     }
 
     private void OnEnable()
@@ -69,5 +73,11 @@ public class PlayerController : MonoBehaviour
 
         //healthBar.value = playerHealth;
 
+    }
+
+
+    public void SetBoosters(bool activeState)
+    {
+        _trail.enabled = activeState;
     }
 }
